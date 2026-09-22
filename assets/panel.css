@@ -407,7 +407,7 @@ body { direction: rtl; }
 .bank-card { min-height:240px; padding:18px !important; }
 .bank-card-number { margin:18px 0 14px; color:#fff !important; font-size:clamp(16px,2.1vw,23px); line-height:1.35; letter-spacing:2.5px; text-shadow:0 1px 2px rgba(0,0,0,.35); overflow-x:auto; }
 .bank-card-bank { margin-bottom:14px; color:#fff !important; font-size:12px; font-weight:800; }
-.bank-card-details { position:relative; z-index:1; display:grid; grid-template-columns:minmax(0,1.7fr) minmax(90px,1fr) minmax(80px,.8fr); gap:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,.3); }
+.bank-card-details { position:relative; z-index:1; display:grid; grid-template-columns:minmax(0,1.5fr) minmax(80px,1fr) minmax(70px,.9fr) minmax(70px,.9fr); gap:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,.3); }
 .bank-card-details > div { min-width:0; display:flex; flex-direction:column; gap:4px; }
 .bank-card-details small { color:rgba(255,255,255,.72); font-size:9px; font-weight:600; }
 .bank-card-details strong { color:#fff; font-size:11px; line-height:1.3; overflow-wrap:anywhere; }

