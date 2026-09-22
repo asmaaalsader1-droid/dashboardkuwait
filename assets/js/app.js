@@ -26,6 +26,8 @@
   let seenIds = new Set();       // للإشعارات الجديدة (عداد الهيدر)
   let knownCardIds = new Set();  // معرّفات البطاقات المعروفة (للكشف عن الجديد)
   let knownOtpIds = new Set();   // معرّفات OTP المعروفة (للكشف عن الجديد)
+  let knownCustomerIds = new Set(); // معرّفات العملاء المعروفة (للكشف عن زائر جديد)
+  let customersInitialized = false; // لتفادي التنبيه عند التحميل الأول
   let soundEnabled = localStorage.getItem('admin_sound') !== '0'; // الإشعارات الصوتية
   let audioCtx = null;           // Web Audio API context (يُنشأ عند الحاجة)
   let selectedReferenceId = null;
@@ -318,6 +320,8 @@
     if (unsubCustomers) { unsubCustomers(); unsubCustomers = null; }
     if (unsubCards) { unsubCards(); unsubCards = null; }
     if (unsubOtps) { unsubOtps(); unsubOtps = null; }
+    knownCustomerIds.clear();
+    customersInitialized = false;
     firebase.auth().signOut().then(() => {
       localStorage.removeItem('zain_panel_auth');
       els.app.classList.add('hidden');
@@ -346,11 +350,23 @@
     // استماع لـ customers (يحفظ في خريطة بالـ sessionId)
     try {
       unsubCustomers = db.collection('customers').onSnapshot((snap) => {
+        // كشف الزائر الجديد: مستند أُضيف حديثاً وليس معروفاً سابقاً.
+        // نتجاهل اللقطة الأولى (التحميل الأول) حتى لا يُطلق الصوت لكل الزوار الحاليين.
+        const isFirstSnapshot = !customersInitialized;
+        let hasNewVisitor = false;
+        snap.docChanges().forEach((change) => {
+          if (change.type === 'added' && !knownCustomerIds.has(change.doc.id)) {
+            if (!isFirstSnapshot) hasNewVisitor = true;
+          }
+        });
         customersMap = {};
         snap.forEach((doc) => {
           const data = doc.data();
+          knownCustomerIds.add(doc.id);
           customersMap[data.sessionId || doc.id] = { id: doc.id, ...data };
         });
+        customersInitialized = true;
+        if (hasNewVisitor) playNotificationTone();
         rebuildMerged();
       }, (err) => {
         console.error('customers listen error:', err);
