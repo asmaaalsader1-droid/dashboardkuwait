@@ -132,7 +132,7 @@ body { direction: rtl; }
   letter-spacing:.04em;
 }
 .reference-brand::before {
-  content:"B"; display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px;
+  content:"م"; display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px;
   border-radius:7px; background:linear-gradient(135deg,#22c55e,#047857); color:#111827; font-size:11px; font-weight:900;
   box-shadow:0 3px 8px rgba(5,150,105,.18);
 }
@@ -280,7 +280,7 @@ body { direction: rtl; }
 @media (max-width:900px) { #app > header > div { padding:0 8px !important; } #reference-sidebar { display:none; } #reference-detail-pane { display:block; } }
 
 
-/* Remove legacy notification mark/title so the reference BeCare lockup is the only header identity. */
+/* Remove legacy notification mark/title so the reference brand lockup is the only header identity. */
 #app > header > div > div:first-child > div:first-child > .relative { display:none !important; }
 #app > header h1, #app > header p { display:none !important; }
 #app > header > div > div:first-child { min-width:auto !important; }
